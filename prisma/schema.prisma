@@ -8,14 +8,23 @@ datasource db {
 }
 
 model User {
-  id         String   @id @unique
-  name       String
-  email      String   @unique
-  phone      String
-  address    String
-  pkg        String
-  courses    String
-  came_from  String
-  start_date String
-  end_date   String
+  id           String @id @unique
+  name         String
+  email        String @unique
+  phone        String
+  address      String
+  pkg          String
+  courses      String
+  came_from    String
+  start_date   String
+  end_date     String
+  location     String
+  payment_date String
+  receipt_no   String
+}
+
+model Analytics {
+  id    Int    @id @default(autoincrement())
+  date  String
+  count Int
 }

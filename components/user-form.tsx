@@ -50,6 +50,11 @@ const pkgs = [
   { label: "12 months", value: "12 months" },
 ];
 
+export const locations = [
+  { label: "VijayNagar", value: "VijayNagar" },
+  { label: "Bilhari", value: "Bilhari" },
+];
+
 const formSchema = z.object({
   name: z.string().min(2, {
     message: "Name must be at least 2 characters.",
@@ -75,16 +80,27 @@ const formSchema = z.object({
   end_date: z.string({
     required_error: "Please select an end date.",
   }),
+  location: z.string({
+    required_error: "Please select a location.",
+  }),
+  payment_date: z.string({
+    required_error: "Please select a payment date.",
+  }),
+  receipt_no: z.string({
+    required_error: "Please select a payment no.",
+  }),
   came_from: z.string(),
 });
 
 export function UserForm() {
   const router = useRouter();
   const [pkgOpen, setPkgOpen] = useState(false);
+  const [locationOpen, setLocationOpen] = useState(false);
   const [coursesOpen, setCoursesOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [startDate, setStartDate] = useState<Date | undefined>();
   const [endDate, setEndDate] = useState<Date | undefined>();
+  const [paymentDate, setPaymentDate] = useState<Date | undefined>();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -97,6 +113,9 @@ export function UserForm() {
       courses: "",
       start_date: "",
       end_date: "",
+      location: "",
+      payment_date: "",
+      receipt_no: "",
       came_from: "",
     },
   });
@@ -135,6 +154,11 @@ export function UserForm() {
   }
 
   useEffect(() => {
+    const storedLocation = localStorage.getItem("location");
+    if (storedLocation) {
+      form.setValue("location", storedLocation);
+    }
+
     if (!startDate) return;
     const tdate = new Date(startDate.getTime());
     console.log("startDate", startDate.toISOString());
@@ -209,6 +233,68 @@ export function UserForm() {
         />
         <FormField
           control={form.control}
+          name="location"
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel>Location</FormLabel>
+              <Popover open={locationOpen} onOpenChange={setLocationOpen}>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      aria-expanded={locationOpen}
+                      className={cn(
+                        "justify-between",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      {field.value
+                        ? locations.find((pkg) => pkg.value === field.value)
+                            ?.label
+                        : "Select a courses"}
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent align="start" className="p-0">
+                  <Command>
+                    <CommandInput placeholder="Search coursess..." />
+                    <CommandList>
+                      <CommandEmpty>No Location found.</CommandEmpty>
+                      <CommandGroup>
+                        {locations.map((location) => (
+                          <CommandItem
+                            key={location.value}
+                            value={location.value}
+                            onSelect={(value) => {
+                              form.setValue("location", value);
+                              localStorage.setItem("location", value);
+                              setLocationOpen(false);
+                            }}
+                          >
+                            <Check
+                              className={cn(
+                                "mr-2 h-4 w-4",
+                                location.value === field.value
+                                  ? "opacity-100"
+                                  : "opacity-0"
+                              )}
+                            />
+                            {location.label}
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
           name="pkg"
           render={({ field }) => (
             <FormItem className="flex flex-col">
@@ -232,7 +318,7 @@ export function UserForm() {
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
-                <PopoverContent className="p-0">
+                <PopoverContent align="start" className="p-0">
                   <Command>
                     <CommandInput placeholder="Search coursess..." />
                     <CommandList>
@@ -304,7 +390,7 @@ export function UserForm() {
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
-                <PopoverContent className="p-0">
+                <PopoverContent align="start" className="p-0">
                   <Command>
                     <CommandInput placeholder="Search coursess..." />
                     <CommandList>
@@ -373,7 +459,7 @@ export function UserForm() {
             name="start_date"
             render={({ field }) => (
               <FormItem className="flex items-center space-x-2">
-                <FormLabel>Start Date</FormLabel>
+                <FormLabel className="pt-2">Start Date</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
@@ -413,7 +499,7 @@ export function UserForm() {
             name="end_date"
             render={({ field }) => (
               <FormItem className="flex items-center space-x-2">
-                <FormLabel>End Date</FormLabel>
+                <FormLabel className="pt-2">End Date</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
@@ -449,6 +535,59 @@ export function UserForm() {
             )}
           />
         </div>
+        <FormField
+          control={form.control}
+          name="receipt_no"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Payment No.</FormLabel>
+              <FormControl>
+                <Input placeholder="Payment No." {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="payment_date"
+          render={({ field }) => (
+            <FormItem className="flex items-center space-x-2">
+              <FormLabel className="pt-2">Payment Date</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant={"outline"}
+                    className={cn(
+                      "w-[240px] justify-start text-left font-normal",
+                      !paymentDate && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon />
+                    {paymentDate ? (
+                      format(paymentDate, "P")
+                    ) : (
+                      <span>Pick a date</span>
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={paymentDate}
+                    onSelect={(e) => {
+                      setPaymentDate(e);
+                      if (e === undefined) return;
+                      form.setValue("payment_date", e.toISOString());
+                    }}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="came_from"

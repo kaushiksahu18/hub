@@ -13,6 +13,9 @@ const userFormSchema = z.object({
   courses: z.string(),
   start_date: z.string(),
   end_date: z.string(),
+  location: z.string(),
+  payment_date: z.string(),
+  receipt_no: z.string(),
   came_from: z.string(),
 });
 
@@ -32,6 +35,9 @@ export async function submitUserForm(formData: z.infer<typeof userFormSchema>) {
     courses,
     start_date,
     end_date,
+    location,
+    payment_date,
+    receipt_no,
     came_from,
   } = validatedFields.data;
 
@@ -60,6 +66,9 @@ export async function submitUserForm(formData: z.infer<typeof userFormSchema>) {
       came_from,
       start_date,
       end_date,
+      location,
+      payment_date,
+      receipt_no,
     },
   });
 

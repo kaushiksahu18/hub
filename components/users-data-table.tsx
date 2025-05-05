@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
 import {
   type ColumnDef,
   type ColumnFiltersState,
@@ -35,6 +35,7 @@ import {
 import { getUsers, deleteUser } from "@/lib/actions";
 import { toast } from "@/hooks/use-toast";
 import { coursess } from "@/components/user-form";
+import { locations } from "@/components/user-form";
 
 interface User {
   id: string;
@@ -46,11 +47,10 @@ interface User {
   courses: string;
   came_from: string;
   start_date: string;
+  location: string;
   end_date: string;
-}
-
-interface GlobalFilter {
-  globalFilter: any;
+  payment_date: string;
+  receipt_no: string;
 }
 
 const users = [
@@ -66,6 +66,7 @@ export function UsersDataTable() {
   const [globalFilter, setGlobalFilter] = useState<string>("");
   const [courseFilter, setCourseFilter] = useState<string>("");
   const [userFilter, setUserFilter] = useState<string>("");
+  const [locationFilter, setLocationFilter] = useState<string>("");
 
   useEffect(() => {
     async function fetchUsers() {
@@ -105,21 +106,6 @@ export function UsersDataTable() {
     }
   };
 
-  const myCustomFilterFn: FilterFn<User> = (
-    row: any,
-    columnId: string,
-    filterValue: any
-  ) => {
-    const today = new Date().toISOString();
-    const data = row.getValue(columnId);
-    if(filterValue === "active") {
-      return data >= today;
-    }else if(filterValue === "expire") {
-      return data < today;
-    }
-    return true;
-  };
-
   const columns: ColumnDef<User>[] = [
     {
       accessorKey: "name",
@@ -146,6 +132,15 @@ export function UsersDataTable() {
     {
       accessorKey: "address",
       header: "Address",
+    },
+    {
+      accessorKey: "location",
+      header: "Location",
+      cell: ({ row }) => {
+        const location = row.getValue("location") as string;
+        return <div>{location}</div>;
+      },
+      filterFn: FilterFnForLocation,
     },
     {
       accessorKey: "pkg",
@@ -198,7 +193,23 @@ export function UsersDataTable() {
         const date = row.getValue("end_date") as string;
         return <div>{date.split("T")[0]}</div>;
       },
-      filterFn: myCustomFilterFn,
+      filterFn: FilterFnForExpireUsers,
+    },
+    {
+      accessorKey: "payment_date",
+      header: "Payment Date",
+      cell: ({ row }) => {
+        const date = row.getValue("payment_date") as string;
+        return <div>{date.split("T")[0]}</div>;
+      },
+    },
+    {
+      accessorKey: "receipt_no",
+      header: "Receipt No",
+      cell: ({ row }) => {
+        const date = row.getValue("receipt_no") as string;
+        return <div>{date}</div>;
+      },
     },
     {
       id: "actions",
@@ -237,9 +248,20 @@ export function UsersDataTable() {
 
   useEffect(() => {
     // If both filters are “all”, clear all column filters
-    if (courseFilter === "all" && userFilter === "all") {
+    if (
+      courseFilter === "all" &&
+      userFilter === "all" &&
+      locationFilter === "all"
+    ) {
       table.resetColumnFilters();
       return;
+    }
+
+    // Location filter (string match)
+    if (locationFilter && locationFilter !== "all") {
+      table.getColumn("location")?.setFilterValue(locationFilter);
+    } else {
+      table.getColumn("location")?.setFilterValue(undefined);
     }
 
     // Course filter (string match)
@@ -255,7 +277,7 @@ export function UsersDataTable() {
     } else {
       table.getColumn("end_date")?.setFilterValue(undefined);
     }
-  }, [courseFilter, userFilter, table]);
+  }, [courseFilter, userFilter, table, locationFilter]);
 
   if (loading) {
     return (
@@ -273,6 +295,19 @@ export function UsersDataTable() {
             onChange={(e) => table.setGlobalFilter(String(e.target.value))}
             className="max-w-sm"
           />
+          <Select value={locationFilter} onValueChange={setLocationFilter}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="All Locations" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Users</SelectItem>
+              {locations.map((location) => (
+                <SelectItem key={location.value} value={location.value}>
+                  {location.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
           <Select value={userFilter} onValueChange={setUserFilter}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="All Users" />
@@ -379,3 +414,33 @@ export function UsersDataTable() {
     </div>
   );
 }
+
+const FilterFnForExpireUsers: FilterFn<User> = (
+  row: any,
+  columnId: string,
+  filterValue: any
+) => {
+  console.log("filterValue", filterValue);
+  const today = new Date().toISOString();
+  const data = row.getValue(columnId);
+  if (filterValue === "active") {
+    return data >= today;
+  } else if (filterValue === "expire") {
+    return data < today;
+  }
+  return true;
+};
+
+const FilterFnForLocation: FilterFn<User> = (
+  row: any,
+  columnId: string,
+  filterValue: any
+) => {
+  console.log("filterValue", filterValue);
+  const data = row.getValue(columnId);
+  console.log("data", data);
+  if (filterValue === data) {
+    return true;
+  }
+  return false;
+};
