@@ -10,7 +10,7 @@ import Footer from "@/components/Footer";
 function App() {
   return (
     <div className="font-sans">
-      <Header />
+      {/* <Header /> */}
       <main>
         <HeroSection />
         <ServicesSection />
