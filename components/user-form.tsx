@@ -38,15 +38,16 @@ import { Calendar } from "./ui/calendar";
 import { format, set } from "date-fns";
 
 export const coursess = [
-  { label: "Dancing", value: "dancing" },
-  { label: "Singing", value: "singing" },
-  { label: "Panting", value: "panting" },
+  { label: "Guitar", value: "guitar" },
+  { label: "Typing", value: "typing" },
+  { label: "Music", value: "music" },
 ];
 
 const pkgs = [
   { label: "1 month", value: "1 month" },
   { label: "3 months", value: "3 months" },
   { label: "6 months", value: "6 months" },
+  { label: "9 months", value: "9 months" },
   { label: "12 months", value: "12 months" },
 ];
 

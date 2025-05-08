@@ -10,7 +10,7 @@ const Header: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 20) {
+      if (window.scrollY > 0) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
@@ -23,11 +23,11 @@ const Header: React.FC = () => {
 
   return (
     <header
-      className={`fixed w-full px-4 top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed w-full top-0 left-0 right-0 z-50 transition-all duration-300 backdrop-blur-sm ${
         isScrolled ? "bg-white shadow-md py-3" : "bg-transparent py-5"
       }`}
     >
-      <div className="container mx-auto px-4 md:px-6">
+      <div className="container mx-auto px-2 md:px-6">
         <div className="flex justify-between items-center">
           <Link href="/">
             <div className="flex items-center gap-2">

@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div id="main" className="w-[100vw] h-[100vh] relative" >
+        <div id="main" className="w-full h-screen relative" >
         <Header />
         {children}
         <Toaster />

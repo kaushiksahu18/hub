@@ -18,7 +18,7 @@ const HeroSection: React.FC = () => {
     >
       {/* Background with gradient overlay */}
       <div className="absolute inset-0 bg-linear-to-r from-primary/90 to-primary/80">
-        <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/4088012/pexels-photo-4088012.jpeg?auto=compress&cs=tinysrgb&w=1600')] bg-cover bg-center bg-no-repeat mix-blend-overlay opacity-80"></div>
+        <div className="absolute inset-0 bg-[url('https://cdn.prod.website-files.com/5dbb40d6d8c97447e9450447/61cb62b743a7564c79d61be4_PRODUCT_THUMBNAIL-min.jpg')] bg-cover bg-center bg-no-repeat mix-blend-overlay opacity-80" />
       </div>
 
       {/* Floating musical notes animation */}

@@ -71,8 +71,8 @@ const TestimonialsSection: React.FC = () => {
           <p className="text-gray-600">Hear from our community of music and typing students about their learning experiences.</p>
         </div>
 
-        <div className="relative max-w-4xl mx-auto">
-          <div className="absolute -left-10 top-1/2 transform -translate-y-1/2 z-10">
+        <div className="relative max-w-2xl md:max-w-4xl mx-auto">
+          <div className="absolute -left-3 -md:left-6 -lg:left-12 top-1/2 transform -translate-y-1/2 z-10">
             <button
               onClick={prevTestimonial}
               className="bg-white p-3 rounded-full shadow-md hover:shadow-lg transition-all duration-300"
@@ -149,7 +149,7 @@ const TestimonialsSection: React.FC = () => {
             </div>
           </div>
 
-          <div className="absolute -right-10 top-1/2 transform -translate-y-1/2 z-10">
+          <div className="absolute -right-3 -md:left-6 -lg:left-12 top-1/2 transform -translate-y-1/2 z-10">
             <button
               onClick={nextTestimonial}
               className="bg-white p-3 rounded-full shadow-md hover:shadow-lg transition-all duration-300"
