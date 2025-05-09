@@ -164,16 +164,14 @@ export function UserForm() {
     }
 
     if (!startDate) return;
-    const tdate = new Date(startDate.getTime());
-    console.log("startDate", startDate.toISOString());
-    console.log("tdate", tdate.toISOString());
-    tdate.setMonth(
-      tdate.getMonth() + parseInt(form.getValues("pkg").split(" ")[0])
-    );
-    console.log("startDate", startDate.toISOString());
-    console.log("tdate", tdate.toISOString());
-    setEndDate(tdate);
-    form.setValue("end_date", tdate.toISOString());
+    if (form.getValues("pkg").split(" ")[0]) {
+      const tdate = new Date(startDate.getTime());
+      tdate.setMonth(
+        tdate.getMonth() + parseInt(form.getValues("pkg").split(" ")[0])
+      );
+      setEndDate(tdate);
+      form.setValue("end_date", tdate.toISOString());
+    }
   }, [startDate, pkgOpen]);
 
   return (
@@ -475,7 +473,7 @@ export function UserForm() {
                     >
                       <CalendarIcon />
                       {startDate ? (
-                        format(startDate, "P")
+                        format(startDate, "dd/MM/yyyy")
                       ) : (
                         <span>Pick a date</span>
                       )}
@@ -515,7 +513,7 @@ export function UserForm() {
                     >
                       <CalendarIcon />
                       {endDate ? (
-                        format(endDate, "P")
+                        format(endDate, "dd/MM/yyyy")
                       ) : (
                         <span>Pick a date</span>
                       )}
@@ -569,7 +567,7 @@ export function UserForm() {
                   >
                     <CalendarIcon />
                     {paymentDate ? (
-                      format(paymentDate, "P")
+                      format(paymentDate, "dd/MM/yyyy")
                     ) : (
                       <span>Pick a date</span>
                     )}
