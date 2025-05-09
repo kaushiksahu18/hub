@@ -37,10 +37,13 @@ import { submitUserForm } from "@/lib/actions";
 import { Calendar } from "./ui/calendar";
 import { format, set } from "date-fns";
 
+// services = ["Singing", "Guitar", "Dance", "Painting", "Keyboard"]
 export const coursess = [
-  { label: "Guitar", value: "guitar" },
-  { label: "Typing", value: "typing" },
-  { label: "Music", value: "music" },
+  { label: "Guitar", value: "Guitar" },
+  { label: "Singing", value: "Singing" },
+  { label: "Dance", value: "Dance" },
+  { label: "Painting", value: "Painting" },
+  { label: "Keyboard", value: "Keyboard" },
 ];
 
 const pkgs = [

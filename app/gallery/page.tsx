@@ -157,14 +157,13 @@ export default function GalleryPage() {
     ],
   };
 
-  // #50d4e3 blue
-  // #ee6352 red
-
   return (
-    <div className="container mx-auto bg-zinc-200 rounded-xl">
-      <h1 className="text-center text-3xl font-bold pt-4">
-        <span className="text-[#ee6352]">Our Gallery</span>
-      </h1>
+    <div className="container mx-auto">
+      <div className="text-center max-w-3xl mx-auto mb-4">
+        <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          Our <span className="text-primary">Gallery</span>
+        </h2>
+      </div>
 
       <Suspense fallback={<div>Loading...</div>}>
         <Tabs
@@ -173,11 +172,7 @@ export default function GalleryPage() {
         >
           <TabsList className="mx-auto mb-8 grid w-full max-w-md grid-cols-3">
             {["dancing", "singing", "panting"].map((value, idx) => (
-              <TabsTrigger
-                value={value}
-                className="text-[#ee6352] data-[state=active]:text-[#50d4e3]"
-                key={idx}
-              >
+              <TabsTrigger value={value} key={idx}>
                 {value.charAt(0).toUpperCase() + value.slice(1)}
               </TabsTrigger>
             ))}

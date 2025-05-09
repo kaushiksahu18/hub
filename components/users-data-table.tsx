@@ -113,7 +113,9 @@ export function UsersDataTable() {
         return (
           <Button
             variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            onClick={() => {
+              console.log("clicked header");
+              column.toggleSorting(column.getIsSorted() === "asc")}}
           >
             Name
             <ArrowUpDown className="ml-2 h-4 w-4" />

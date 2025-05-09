@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { ArrowRight, Music, Headphones, Keyboard } from "lucide-react";
 import FloatingNote from "./FloatingNote";
+import Link from "next/link";
 
 const HeroSection: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -18,7 +19,7 @@ const HeroSection: React.FC = () => {
     >
       {/* Background with gradient overlay */}
       <div className="absolute inset-0 bg-linear-to-r from-primary/90 to-primary/80">
-        <div className="absolute inset-0 bg-[url('https://cdn.prod.website-files.com/5dbb40d6d8c97447e9450447/61cb62b743a7564c79d61be4_PRODUCT_THUMBNAIL-min.jpg')] bg-cover bg-center bg-no-repeat mix-blend-overlay opacity-80" />
+        <div className="absolute inset-0 bg-[url('/hero-img.jpg')] bg-cover bg-center bg-no-repeat mix-blend-overlay opacity-80" />
       </div>
 
       {/* Floating musical notes animation */}
@@ -80,12 +81,11 @@ const HeroSection: React.FC = () => {
               all ages and skill levels.
             </p>
             <div className="flex flex-wrap gap-4">
-              <button className="bg-accent hover:bg-accent/90 text-white font-medium py-3 px-6 rounded-full transition-all duration-300 flex items-center gap-2 transform hover:scale-105">
-                Start Learning <ArrowRight className="h-4 w-4" />
-              </button>
-              <button className="bg-white/10 hover:bg-white/20 text-white font-medium py-3 px-6 rounded-full backdrop-blur-xs transition-all duration-300">
-                Explore Courses
-              </button>
+              <Link href="/register">
+                <button className="bg-accent hover:bg-accent/90 text-white font-medium py-3 px-6 rounded-full transition-all duration-300 flex items-center gap-2 transform hover:scale-105">
+                  Start Learning <ArrowRight className="h-4 w-4" />
+                </button>
+              </Link>
             </div>
           </div>
 
