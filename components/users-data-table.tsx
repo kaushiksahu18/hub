@@ -290,7 +290,7 @@ export function UsersDataTable() {
   return (
     <div className="space-y-4">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex flex-1 items-center gap-2">
+        <div className="flex flex-col md:flex-row flex-1 items-center gap-2">
           <Input
             placeholder="Search by any field..."
             value={table.getState().globalFilter ?? ""}
@@ -298,7 +298,7 @@ export function UsersDataTable() {
             className="max-w-sm"
           />
           <Select value={locationFilter} onValueChange={setLocationFilter}>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="max-w-sm">
               <SelectValue placeholder="All Locations" />
             </SelectTrigger>
             <SelectContent>
@@ -311,7 +311,7 @@ export function UsersDataTable() {
             </SelectContent>
           </Select>
           <Select value={userFilter} onValueChange={setUserFilter}>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="max-w-sm">
               <SelectValue placeholder="All Users" />
             </SelectTrigger>
             <SelectContent>
@@ -324,7 +324,7 @@ export function UsersDataTable() {
             </SelectContent>
           </Select>
           <Select value={courseFilter} onValueChange={setCourseFilter}>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="max-w-sm">
               <SelectValue placeholder="All courses" />
             </SelectTrigger>
             <SelectContent>

@@ -15,10 +15,8 @@ const Header = () => {
   console.log("Current path:", pathname);
 
   if (pathname === "/") {
-    console.log("Home page");
     isHome = true;
   } else if (pathname === "/admin" || pathname === "/register") {
-    console.log("Admin or Register page");
     isHome = false;
   }
 
